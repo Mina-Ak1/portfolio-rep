@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mina Akhondzadeh — Data Scientist</title>
+  <meta name="description" content="Portfolio — ML, Statistics, LLM fine-tuning, data visualization." />
+  <style>
+    :root{
+      --bg:#0b0d10; --panel:#121722; --ink:#e8eef7; --muted:#9aa8b5; --accent:#62b0ff; --border:#1f2734;
+      --max:1100px; --sidebar-w:280px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+
+    a{color:var(--accent);text-decoration:none}
+    img{display:block}
+
+    /* Top nav */
+    .nav{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;
+         gap:16px;padding:14px 18px;background:rgba(11,13,16,.75);backdrop-filter:saturate(120%) blur(10px);
+         border-bottom:1px solid var(--border)}
+    .brand{font-weight:700;letter-spacing:.3px}
+    .nav a{color:var(--ink);opacity:.9;margin-left:14px}
+    .nav a:hover{opacity:1}
+
+    /* Layout with sidebar */
+    .layout{display:block}
+    .sidebar{
+      position:fixed; top:56px; left:0; bottom:0;
+      width:var(--sidebar-w); padding:20px 18px 28px; overflow:auto;
+      background:rgba(18,23,34,.9); border-right:1px solid var(--border); backdrop-filter:blur(8px);
+    }
+    .content{ margin-left:calc(var(--sidebar-w) + 0px); }
+
+    /* Sidebar content */
+    .side-photo{width:120px; height:120px; border-radius:50%; object-fit:cover; border:2px solid var(--border); background:#0f141c; margin-bottom:14px}
+    .side-name{font-size:20px; font-weight:700; margin:0 0 4px}
+    .side-title{color:var(--muted); margin:0 0 14px; font-size:14px}
+    .icons{display:flex; gap:10px; margin:10px 0 16px}
+    .icon{
+      width:34px; height:34px; display:inline-flex; align-items:center; justify-content:center;
+      border-radius:10px; background:#0f141c; border:1px solid var(--border); cursor:pointer;
+    }
+    .icon svg{width:18px; height:18px; fill:none; stroke:var(--ink); stroke-width:1.6px}
+    .skills{display:flex; flex-wrap:wrap; gap:8px}
+    .pill{display:inline-block;background:#152032;border:1px solid var(--border);color:#9fb2c9;
+          padding:6px 10px;border-radius:999px;font-size:12px}
+
+    /* Sections */
+    section{max-width:var(--max);margin:0 auto;padding:32px 20px}
+    .hero{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center}
+    .avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid var(--border);background:#0f141c}
+    .kicker{color:var(--muted);margin:.2rem 0 1rem}
+
+    /* Projects grid */
+    .grid {display:grid; gap:18px; grid-template-columns:repeat(2,1fr)}
+    @media (max-width: 700px){ .grid{grid-template-columns:1fr} }
+
+    .card{display:flex;flex-direction:column;gap:10px;background:var(--panel);border:1px solid var(--border);
+          border-radius:14px;overflow:hidden;transition:transform .08s ease, box-shadow .08s ease}
+    .card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.25)}
+    .thumb{aspect-ratio:16/9;object-fit:cover;width:100%;background:#0f141c}
+    .pad{padding:14px 16px}
+    .card h3{margin:0 0 6px}
+    .small{color:var(--muted);font-size:14px;margin:0}
+    .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .tag{background:#0f141c;border:1px solid var(--border);padding:4px 8px;border-radius:999px;font-size:12px;color:#9fb2c9}
+
+    footer{border-top:1px solid var(--border);text-align:center;color:var(--muted);padding:28px 18px}
+
+    /* Anchor offset */
+    .anchor{scroll-margin-top:70px}
+
+    /* Responsive sidebar */
+    @media (max-width: 960px){
+      .sidebar{position:static; width:auto; top:auto; left:auto; right:auto; bottom:auto; border-right:none; border-top:1px solid var(--border)}
+      .content{margin-left:0}
+      .layout{display:flex; flex-direction:column}
+      .side-photo{margin-top:10px}
+    }
+    @media (max-width:640px){ .hero{grid-template-columns:80px 1fr} .avatar{width:80px;height:80px} }
+  </style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<header class="nav">
+  <nav>
+    <a class="brand" href="index.html">Mina Akhondzadeh</a>
+    <a href="about.html">About me</a>
+    <a href="#projects">Projects</a>
+    <a href="resume.pdf" target="_blank" rel="noopener">Resume</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+
+
+
+
+  <div class="layout">
+    <!-- LEFT SIDEBAR -->
+<aside class="sidebar">
+  <img class="side-photo" src="images/photo1.jpeg" alt="Mina Akhondzadeh" />
+  <h2 class="side-name">Mina Akhondzadeh</h2>
+  <p class="side-title">Data Scientist · Orlando, FL</p>  
+
+  <p class="side-cred">
+    M.S. in Statistics & Data Science<br>
+    Part-time Ph.D. student in Big Data Analytics<br>
+  </p>
+
+  <!-- AWS Certification -->
+  <div style="display:flex;align-items:center;gap:8px;margin:10px 0 16px;">
+    <img src="images/aws-logo.png" alt="AWS Logo" style="width:26px;height:26px;" />
+    <span style="font-size:14px;color:var(--ink);">AWS Certified Cloud Practitioner</span>
+  </div>
+
+  <!-- Icons -->
+  <div class="icons">
+    <!-- GitHub -->
+    <a class="icon" href="https://github.com/Mina-Ak1" target="_blank" rel="noopener" aria-label="GitHub">
+      <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 19 4.77 5.07 5.07 0 0 0 18.91 1S17.73.65 15 2.48a13.38 13.38 0 0 0-6 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77 5.44 5.44 0 0 0 3.5 8.52c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+    </a>
+    <!-- LinkedIn -->
+    <a class="icon" href="https://www.linkedin.com/in/mina-akhondzadeh/" target="_blank" rel="noopener" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    </a>
+  <!-- Email (copy) with local tooltip -->
+  <div class="icon-wrap">
+    <button class="icon" id="copyEmail" aria-label="Copy Email">
+      <svg viewBox="0 0 24 24">
+        <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path>
+        <path d="m22 6-10 7L2 6"></path>
+      </svg>
+    </button>
+    <span id="emailTip" class="tooltip" role="status" aria-live="polite">Email copied</span>
+  </div>
+</div>
+  <!-- Skills -->
+  <h3 style="margin:16px 0 8px; font-size:14px; color:var(--muted);">Skills</h3>
+  <div class="skills">
+    <span class="pill">Machine Learning</span>
+    <span class="pill">Statistics</span>
+    <span class="pill">LLM Fine-tuning</span>
+    <span class="pill">NLP</span>
+    <span class="pill">Data Visualization</span>
+    <span class="pill">Python</span>
+    <span class="pill">Flask</span>
+    <span class="pill">SQL</span>
+  </div>
+</aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="content">
+      <!-- ABOUT -->
+    <section id="about" class="anchor">
+    <h1>About Me</h1>
+    <p>
+        I enjoy applying statistical thinking and machine learning to uncover patterns, extract insights, 
+        and build models that tell meaningful stories. 
+        To me, data is not just numbers—it reflects human behavior, choices, and opportunities for improvement. 
+        Having enjoyed the aesthetic side of my previous career in interior design, I now bring that same 
+        creativity into presenting data and the stories behind it in the most fluent and compelling way possible.
+    </p>
+    </section>
+
+
+      <!-- PROJECTS -->
+      <section id="projects" class="anchor">
+        <h2 style="margin-top:0">Projects</h2>
+        <div class="grid">
+
+          <!-- Card 1: LLM project -->
+          <a class="card" href="projects/llm-amazon.html">
+            <img class="thumb" src="images/llm-thumb.png" alt="LLM vs classical methods thumbnail" />
+            <div class="pad">
+              <h3>LLM-Amazon: DistilBERT vs Logistic Regression</h3>
+              <p class="small">
+                Fine-tuned DistilBERT on Amazon reviews and compared with a TF-IDF + Logistic Regression baseline; explored category-level error patterns.
+              </p>
+              <div class="tags">
+                <span class="tag">LLM</span><span class="tag">TF-IDF</span><span class="tag">NLP</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card 2: Data viz -->
+          <a class="card" href="projects/viz-tableau.html">
+            <img class="thumb" src="images/viz-thumb.jpg" alt="Tableau dashboard thumbnail" />
+            <div class="pad">
+              <h3>Interactive Data Visualization (Tableau)</h3>
+              <p class="small">Story-driven dashboard with filters and annotations; embedded from Tableau Public.</p>
+              <div class="tags">
+                <span class="tag">Tableau</span><span class="tag">EDA</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card 3: Agent Demo-->
+          <a class="card" href="projects/agent-demo.html">
+            <img class="thumb" src="images/agent-thumb.png" alt="Agent demo thumbnail" />
+            <div class="pad">
+              <h3>Tiny Agent Demo</h3>
+              <p class="small">
+                An interactive page where a simple agent asks a few questions (like age, color, or today’s wish) and responds with a playful suggestion.
+              </p>
+              <div class="tags">
+                <span class="tag">Agents</span><span class="tag">JavaScript</span><span class="tag">UX</span>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </section>
+
+      <footer>
+        © <span id="year"></span> Mina Akhondzadeh ·
+        <a href="https://www.linkedin.com/in/mina-akhondzadeh/" target="_blank" rel="noopener">LinkedIn</a>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // copy-to-clipboard for email
+    document.getElementById("copyEmail").addEventListener("click", function() {
+      navigator.clipboard.writeText("mina.akhndzd@gmail.com")
+        .then(() => alert("Email copied to clipboard!"))
+        .catch(err => console.error("Failed to copy email", err));
+    });
+  </script>
+</body>
+</html>

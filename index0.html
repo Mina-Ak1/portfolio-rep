@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mina Akhondzadeh — Data Scientist</title>
+  <meta name="description" content="Portfolio — ML, Statistics, LLM fine‑tuning, data visualization." />
+  <style>
+    :root{
+      --bg:#0b0d10; --panel:#121722; --ink:#e8eef7; --muted:#9aa8b5; --accent:#62b0ff; --border:#1f2734;
+      --max:1100px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    a{color:var(--accent);text-decoration:none}
+    /* Nav */
+    .nav{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;
+         gap:16px;padding:14px 18px;background:rgba(11,13,16,.75);backdrop-filter:saturate(120%) blur(10px);
+         border-bottom:1px solid var(--border)}
+    .brand{font-weight:700;letter-spacing:.3px}
+    .nav a{color:var(--ink);opacity:.9;margin-left:14px}
+    .nav a:hover{opacity:1}
+    /* Sections */
+    section{max-width:var(--max);margin:0 auto;padding:48px 20px}
+    .hero{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center}
+    .avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid var(--border);background:#0f141c}
+    .kicker{color:var(--muted);margin:.2rem 0 1rem}
+    .pill{display:inline-block;background:#152032;border:1px solid var(--border);color:#9fb2c9;
+          padding:6px 10px;border-radius:999px;font-size:12px;margin-right:6px}
+    /* Project grid */
+    .grid {display: grid;gap: 18px;grid-template-columns: repeat(2, 1fr); /* always 2 columns */}
+    @media (max-width: 700px) {
+      .grid {grid-template-columns: 1fr; /* stack cards on small screens */}}
+    .card{display:flex;flex-direction:column;gap:10px;background:var(--panel);border:1px solid var(--border);
+          border-radius:14px;overflow:hidden;transition:transform .08s ease, box-shadow .08s ease}
+    .card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.25)}
+    .thumb{aspect-ratio:16/9;object-fit:cover;width:100%;background:#0f141c}
+    .pad{padding:14px 16px}
+    .card h3{margin:0 0 6px}
+    .small{color:var(--muted);font-size:14px;margin:0}
+    .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .tag{background:#0f141c;border:1px solid var(--border);padding:4px 8px;border-radius:999px;font-size:12px;color:#9fb2c9}
+    /* Footer */
+    footer{border-top:1px solid var(--border);text-align:center;color:var(--muted);padding:28px 18px}
+    /* Anchor offset for sticky nav */
+    .anchor{scroll-margin-top:70px}
+    @media (max-width:640px){ .hero{grid-template-columns:80px 1fr} .avatar{width:80px;height:80px} }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="brand">Mina Akhondzadeh</div>
+  <nav>
+    <a href="about.html">About me</a>
+    <a href="#projects">Projects</a>
+    <a href="contact.html">Contact</a>
+    <a href="resume.pdf" target="_blank" rel="noopener">Resume</a>
+    <a href="https://github.com/Mina-Ak1" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+  <!-- ABOUT -->
+  <section id="about" class="hero anchor">
+    <img src="images/photo1.jpeg" alt="Your headshot" class="avatar" />
+    <div>
+      <h1>Data Scientist</h1>
+      <p class="kicker">M.S. in Statistics & Data Science(UCF). Part‑time Ph.D. in Big Data Analytics. Ex‑interior designer.</p>
+      <div>
+        <span class="pill">Machine Learning</span>
+        <span class="pill">Statistics</span>
+        <span class="pill">LLM Fine‑tuning</span>
+        <span class="pill">Data Visualization</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="anchor">
+    <h2 style="margin-top:0">Projects</h2>
+    <div class="grid">
+
+      <!-- Card 1: LLM project -->
+      <a class="card" href="projects/llm-amazon.html">
+        <img class="thumb" src="images/llm-thumb.png" alt="LLM vs classical methods thumbnail" />
+        <div class="pad">
+          <h3>LLM‑Amazon: DistilBERT vs Logistic Regression</h3>
+          <p class="small">Fine‑tuned DistilBERT on Amazon reviews and compared with a TF‑IDF + Logistic Regression baseline; explored category‑level error patterns.</p>
+          <div class="tags">
+            <span class="tag">LLM</span><span class="tag">TF-IDF</span><span class="tag">NLP</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 2: Data viz example (stub you can add later) -->
+      <a class="card" href="projects/viz-tableau.html">
+        <img class="thumb" src="images/viz-thumb.jpg" alt="Tableau dashboard thumbnail" />
+        <div class="pad">
+          <h3>Interactive Data Visualization (Tableau)</h3>
+          <p class="small">Story‑driven dashboard with filters and annotations; embedded from Tableau Public.</p>
+          <div class="tags">
+            <span class="tag">Tableau</span><span class="tag">EDA</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 3: Agent Demo-->
+      <a class="card" href="projects/agent-demo.html">
+        <img class="thumb" src="images/agent-thumb.png" alt="Agent demo thumbnail" />
+        <div class="pad">
+          <h3>Tiny Agent Demo</h3>
+          <p class="small">An interactive page where a simple agent asks you a few questions 
+            (like age, color, or today’s wish) and responds with a playful suggestion.</p>
+          <div class="tags">
+            <span class="tag">Agents</span><span class="tag">JavaScript</span><span class="tag">UX</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- add more cards as needed -->
+
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> Mina Akhondzadeh · <a href="https://www.linkedin.com/in/mina-akhondzadeh/" target="_blank" rel="noopener">LinkedIn</a>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

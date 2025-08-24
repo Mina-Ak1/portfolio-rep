@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LLM Fine‑Tuning — Amazon Reviews</title>
+  <style>
+    :root{--bg:#0b0d10;--panel:#121722;--ink:#e8eef7;--muted:#9aa8b5;--border:#1f2734;--accent:#62b0ff;--max:900px}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    header{position:sticky;top:0;background:rgba(11,13,16,.75);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:12px 18px}
+    a{color:var(--accent);text-decoration:none}
+    main{max-width:var(--max);margin:0 auto;padding:36px 20px}
+    h1{margin-top:0}
+    .muted{color:var(--muted)}
+    .box{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+    img{max-width:100%;border-radius:10px;border:1px solid var(--border);margin:12px 0}
+    ul{margin-top:6px}
+  </style>
+</head>
+<body>
+  <header><a href="../index.html">← Back to portfolio</a></header>
+  <main>
+    <h1>LLM‑Amazon: DistilBERT vs Logistic Regression</h1>
+    <p class="muted">Goal: fine‑tune a compact LLM on Amazon reviews and compare to a TF‑IDF + Logistic Regression baseline.</p>
+
+    <div class="box">
+      <strong>TL;DR:</strong> DistilBERT fine‑tuned with LoRA improved category‑level F1 (avg +X pts) and reduced hallucinated features by ~Y%. False positives concentrated in <em>Electronics</em> and <em>Office Products</em>; <em>Grocery</em> had the cleanest separation.
+    </div>
+
+    <h2>Dataset</h2>
+    <p>5,000 samples from the Amazon Reviews corpus. Preprocessing: lower‑casing, basic cleaning, stratified sampling across categories; instruction‑response pairs for LLM.</p>
+
+    <h2>Method</h2>
+    <ul>
+      <li><strong>Baseline:</strong> TF‑IDF (min_df=?) → Multiclass Logistic Regression (C=?, class_weight=?).</li>
+      <li><strong>LLM:</strong> <code>distilbert-base-uncased</code> + LoRA (r=?, α=?, dropout=?), epochs=?, cosine LR, mixed precision.</li>
+      <li><strong>Eval:</strong> macro F1, per‑category confusion; qualitative SxS analysis on 50 prompts.</li>
+    </ul>
+
+    <h2>Findings</h2>
+    <p>Electronics & Office Products drove most false positives; Grocery was best separated. PCA was weak on sparse TF‑IDF; t‑SNE gave more interpretable clusters.</p>
+
+    <h2>Results</h2>
+    <img src="../images/plot1.png" alt="Training/validation curves" />
+    <img src="../images/plot2.png" alt="Base vs fine‑tuned comparison" />
+
+    <h2>Takeaways & Next</h2>
+    <ul>
+      <li>Fine‑tuning helped domain specificity; remaining errors suggest augmenting with product metadata.</li>
+      <li>Next: try instruction formatting variants and data‑centric cleanup on noisy categories.</li>
+    </ul>
+
+    <p><a href="https://github.com/YOURUSERNAME/llm-amazon-reviews" target="_blank" rel="noopener">Code on GitHub</a></p>
+  </main>
+</body>
+</html>
