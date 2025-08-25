@@ -98,7 +98,7 @@
     <!-- SIDEBAR (same as main) -->
     <aside class="sidebar">
       <div class="side-group">
-        <img class="side-photo" src="../images/photo1.jpeg" alt="Mina Akhondzadeh" />
+        <a href="../index.html"><img class="side-photo" src="../images/photo1.jpeg" alt="Mina Akhondzadeh" /></a>
         <div class="side-name" style="margin-top:10px;">Mina Akhondzadeh</div>
         <div class="side-title">Data Scientist · Orlando, FL</div>
       </div>
@@ -146,6 +146,20 @@
     <main class="content">
       <section>
         <h1>How do LLMs and classical methods classify Amazon reviews?</h1>
+
+        <div class="skills" style="margin: 10px 0 30px;">
+          <span class="pill">Python</span>
+          <span class="pill">Transformers</span>
+          <span class="pill">TF-IDF</span>
+          <span class="pill">Logistic Regression</span>
+          <span class="pill">DistilBERT</span>
+          <span class="pill">t-SNE</span>
+          <span class="pill">PCA</span>
+          <span class="pill">Scikit-learn</span>
+          <span class="pill">HuggingFace</span>
+        </div>
+
+
         <div class="hero">
           <img src="../images/hero-amazon.png" alt="Project hero visual (e.g., t-SNE of embeddings)" />
         </div>
@@ -179,7 +193,7 @@
         <p class="answer">Office Products ↔ Electronics is the toughest boundary across all approaches.</p>
 
         <p class="question"><strong>Do shorter reviews hurt accuracy?</strong>
-        <p class="answer">Yes. Short, generic reviews (like “Great product, works fine”) lacks anchors, so models guess more. Below is the review length vs. misclassification view.</p>
+        <p class="answer">Yes. Short, generic reviews (like “Great product, works fine”) lack anchors, so models guess more. Below is the review length vs. misclassification view.</p>
 
         <div class="img-block"><img class="small-img" src="../images/length-misclass.png" alt="Average length of misclassified vs correct across models" /></div>
 
@@ -190,7 +204,7 @@
           <img src="../images/tsne-embeddings.png" alt="t-SNE on DistilBERT embeddings" />
         </div>
 
-        <p class="question"><strong>What does the model focus on?</strong></p>
+        <p class="question"><strong>What does the LLM focus on?</strong></p>
         <p class="answer">A quick look at DistilBERT’s [CLS] attention maps: correct cases highlight product-specific terms; misclassified pairs lean on generic sentiment or accessory words that appear in multiple categories.</p>
         <div class="img-block"><img class="medium-img" src="../images/attention-correct.png" alt="[CLS] attention — correct case" /></div>
         <div class="img-block"><img class="medium-img" src="../images/attention-misclassified.png" alt="[CLS] attention — misclassified case" /></div>
