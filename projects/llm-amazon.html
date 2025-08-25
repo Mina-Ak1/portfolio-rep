@@ -8,7 +8,7 @@
   <style>
     :root{
       --bg:#0b0d10; --panel:#121722; --ink:#e8eef7; --muted:#9aa8b5; --accent:#62b0ff; --border:#1f2734;
-      --max:1100px; --sidebar-w:280px; --page-pad:24px;
+      --max:800px; --sidebar-w:280px; --page-pad:24px;
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -28,7 +28,9 @@
     .layout{display:block}
     .sidebar{position:fixed; top:56px; left:0; bottom:0; width:var(--sidebar-w); padding:22px var(--page-pad) 28px; overflow:auto;
              background:rgba(18,23,34,.9); border-right:1px solid var(--border); backdrop-filter:blur(8px)}
-    .content{margin-left:var(--sidebar-w); padding:0 var(--page-pad)}
+    .content{margin-left:var(--sidebar-w); padding:0 var(--page-pad)} 
+
+
 
     /* SIDEBAR bits */
     .side-group{margin-bottom:20px}
@@ -55,14 +57,17 @@
     .hero img{max-width:700px; width:100%; height:auto; border-radius:10px; margin:auto}
     .tldr{margin:8px 0 22px; padding-top:10px; border-top:1px solid var(--border)}
     .tldr strong{font-weight:700}
-    .table{width:100%; border-collapse:collapse; margin:10px 0 18px}
+    .table{width:100%; border-collapse:collapse; margin:10px 0 32px}
     .table th,.table td{border-bottom:1px solid var(--border); padding:10px 8px; text-align:left}
     .table th{color:var(--muted); font-weight:600}
-    .img-block{margin:8px 0 22px; text-align:center}
+    .section-break {margin: 28px 0; line-height: 1.7;}
+    .question {margin-top: 32px; margin-bottom: 8px; font-weight: 600;}
+    .answer {margin: 0 0 20px; line-height: 1.65;}
+    .img-block{margin:30px 0 60px; text-align:center}
     .img-block img{border-radius:10px}
     .small-img{max-width:500px; width:100%; margin:auto; display:block}
     .medium-img{max-width:750px; width:100%; margin:auto; display:block}
-    .side-by-side{display:flex; gap:12px; justify-content:center; margin:8px 0 22px}
+    .side-by-side{display:flex; gap:12px; justify-content:center; margin:30px 0 60px;}
     .side-by-side img{max-width:45%; border-radius:10px}
 
     footer{border-top:1px solid var(--border); text-align:center; color:var(--muted); padding:24px var(--page-pad)}
@@ -151,7 +156,7 @@
         <p class="muted">Data source: <a href="https://huggingface.co/datasets/McAuley-Lab/Amazon-Reviews-2023" target="_blank">Amazon Reviews 2023 (McAuley Lab)</a></p>
         
         <table class="table">
-          <thead><tr><th>Model</th><th>Train Acc.</th><th>Test Acc.</th></tr></thead>
+          <thead><tr><th>Model</th><th>Train Accuracy</th><th>Test Accuracy</th></tr></thead>
           <tbody>
             <tr><td>Logistic Regression (TF-IDF)</td><td>0.87</td><td>0.84</td></tr>
             <tr><td>Random Forest (TF-IDF)</td><td>0.86</td><td>0.80</td></tr>
@@ -159,20 +164,34 @@
           </tbody>
         </table>
 
-        <p><strong>What did I actually build?</strong><br/>A lean comparison: TF-IDF → Logistic Regression & Random Forest vs. a fine-tuned <code>distilbert-base-uncased</code>. Balanced sampling keeps per-class comparisons fair and the evaluation simple.</p>
-        <p><strong>Which approach works better overall?</strong><br/>DistilBERT wins on accuracy and separates categories more cleanly in embedding space.</p>
-        <p><strong>Where do models struggle?</strong><br/>Office Products ↔ Electronics is the toughest boundary across all approaches.</p>
+        <p class="section-break">
+          Among all categories, <strong>Electronics</strong> and <strong>Office Products</strong> have the highest number of false
+          positive cases, while <strong>Grocery and Gourmet Food</strong> shows the lowest false positives,
+          especially in the fine-tuned DistilBERT model. This contrast makes them a good set for comparison
+          when visualizing how mixed the categories appear after PCA transformation.
+        </p>
 
-        <p><strong>Do shorter reviews hurt accuracy?</strong><br/>Yes. Short, generic text lacks anchors (brand, part, use-case), so models guess more. Below is the length vs. misclassification view.</p>
+        <p class="question"><strong>What did I actually build?</strong></p>
+        <p class="answer">A comparison: TF-IDF with Logistic Regression & Random Forest vs. a fine-tuned <code>distilbert-base-uncased</code>. Balanced sampling keeps per-class comparisons fair and the evaluation simple.</p>
+        <p class="question"><strong>Which approach works better overall?</strong></p>
+        <p class="answer">DistilBERT comes out ahead. </p>
+        <p class="question"><strong>Where do models struggle?</strong></p>
+        <p class="answer">Office Products ↔ Electronics is the toughest boundary across all approaches.</p>
+
+        <p class="question"><strong>Do shorter reviews hurt accuracy?</strong>
+        <p class="answer">Yes. Short, generic reviews (like “Great product, works fine”) lacks anchors, so models guess more. Below is the review length vs. misclassification view.</p>
+
         <div class="img-block"><img class="small-img" src="../images/length-misclass.png" alt="Average length of misclassified vs correct across models" /></div>
 
-        <p><strong>What does the representation space look like?</strong><br/>To see the difference between bag-of-words vs contextual embeddings, I plotted t-SNE for TF-IDF and for DistilBERT embeddings. TF-IDF shows heavy mixing, especially Office/Electronics. DistilBERT reveals tighter groups; Grocery is notably well-separated.</p>
+        <p class="question"><strong>What does the representation space look like?</strong></p>
+        <p class="answer">To see the difference between bag-of-words vs contextual embeddings, I plotted t-SNE for TF-IDF and for DistilBERT embeddings. TF-IDF shows heavy mixing, especially Office/Electronics. DistilBERT reveals tighter groups; Grocery is notably well-separated.</p>
         <div class="side-by-side">
           <img src="../images/tsne-tfidf.png" alt="t-SNE on TF-IDF features" />
           <img src="../images/tsne-embeddings.png" alt="t-SNE on DistilBERT embeddings" />
         </div>
 
-        <p><strong>What does the model focus on?</strong><br/>A quick look at DistilBERT’s [CLS] attention maps: correct cases highlight product-specific terms; misclassified pairs lean on generic sentiment or accessory words that appear in multiple categories.</p>
+        <p class="question"><strong>What does the model focus on?</strong></p>
+        <p class="answer">A quick look at DistilBERT’s [CLS] attention maps: correct cases highlight product-specific terms; misclassified pairs lean on generic sentiment or accessory words that appear in multiple categories.</p>
         <div class="img-block"><img class="medium-img" src="../images/attention-correct.png" alt="[CLS] attention — correct case" /></div>
         <div class="img-block"><img class="medium-img" src="../images/attention-misclassified.png" alt="[CLS] attention — misclassified case" /></div>
       </section>
