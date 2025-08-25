@@ -3,54 +3,199 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>LLM Fine‑Tuning — Amazon Reviews</title>
+  <title>How do LLMs and classical methods classify Amazon reviews?</title>
+  <meta name="description" content="Blog-style walkthrough comparing TF-IDF baselines with a fine-tuned DistilBERT on Amazon reviews. Matches main site layout (top nav + left sidebar)." />
   <style>
-    :root{--bg:#0b0d10;--panel:#121722;--ink:#e8eef7;--muted:#9aa8b5;--border:#1f2734;--accent:#62b0ff;--max:900px}
+    :root{
+      --bg:#0b0d10; --panel:#121722; --ink:#e8eef7; --muted:#9aa8b5; --accent:#62b0ff; --border:#1f2734;
+      --max:1100px; --sidebar-w:280px; --page-pad:24px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
     body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-    header{position:sticky;top:0;background:rgba(11,13,16,.75);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:12px 18px}
     a{color:var(--accent);text-decoration:none}
-    main{max-width:var(--max);margin:0 auto;padding:36px 20px}
-    h1{margin-top:0}
+    img{display:block}
+
+    /* NAV (borrowed from main index) */
+    .nav{position:sticky; top:0; z-index:20; display:flex; align-items:center; padding:12px var(--page-pad);
+         background:rgba(11,13,16,.75); backdrop-filter:saturate(120%) blur(10px); border-bottom:1px solid var(--border)}
+    .nav nav{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
+    .nav a{color:var(--ink); opacity:.9; padding:6px 8px; border-radius:8px}
+    .nav a:hover{opacity:1; background:#0f141c}
+    .brand{font-weight:700; letter-spacing:.3px; margin-right:10px}
+
+    /* LAYOUT (borrowed from main index) */
+    .layout{display:block}
+    .sidebar{position:fixed; top:56px; left:0; bottom:0; width:var(--sidebar-w); padding:22px var(--page-pad) 28px; overflow:auto;
+             background:rgba(18,23,34,.9); border-right:1px solid var(--border); backdrop-filter:blur(8px)}
+    .content{margin-left:var(--sidebar-w); padding:0 var(--page-pad)}
+
+    /* SIDEBAR bits */
+    .side-group{margin-bottom:20px}
+    .side-photo{width:130px; height:130px; border-radius:50%; object-fit:cover; border:2px solid var(--border); background:#0f141c; display:block; margin:0 auto 12px}
+    .side-name{font-size:20px; font-weight:700; margin:12px 0 2px}
+    .side-title{color:var(--muted); margin:0 0 6px; font-size:14px}
+    .side-cred{color:var(--muted); font-size:15px; line-height:1.55; margin:0}
+    .side-divider{height:1px; background:var(--border); opacity:.6; margin:14px 0}
+    .icons{display:flex; gap:10px}
+    .icon{width:34px; height:34px; display:inline-flex; align-items:center; justify-content:center; border-radius:10px; background:#0f141c; border:1px solid var(--border); cursor:pointer}
+    .icon svg{width:18px; height:18px; fill:none; stroke:var(--ink); stroke-width:1.6px}
+    .icon-wrap{position:relative}
+    .tooltip{position:absolute; top:-40px; left:50%; transform:translateX(-50%); background:#121722; color:var(--ink); border:1px solid var(--border); border-radius:8px; padding:6px 8px; font-size:12px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .18s ease, transform .18s ease}
+    .tooltip.show{opacity:1; transform:translateX(-50%) translateY(-2px)}
+    .skills{display:flex; flex-wrap:wrap; gap:8px}
+    .pill{display:inline-block; background:#152032; border:1px solid var(--border); color:#9fb2c9; padding:6px 10px; border-radius:999px; font-size:12px}
+
+    /* PAGE CONTENT */
+    main section{max-width:var(--max); margin:0 auto; padding:28px 0}
+    h1{margin:0 0 8px; font-size:30px; letter-spacing:.2px}
+    p{margin:14px 0}
     .muted{color:var(--muted)}
-    .box{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
-    img{max-width:100%;border-radius:10px;border:1px solid var(--border);margin:12px 0}
-    ul{margin-top:6px}
+    .hero {margin: 50px 0 8px; text-align: center;}
+    .hero img{max-width:700px; width:100%; height:auto; border-radius:10px; margin:auto}
+    .tldr{margin:8px 0 22px; padding-top:10px; border-top:1px solid var(--border)}
+    .tldr strong{font-weight:700}
+    .table{width:100%; border-collapse:collapse; margin:10px 0 18px}
+    .table th,.table td{border-bottom:1px solid var(--border); padding:10px 8px; text-align:left}
+    .table th{color:var(--muted); font-weight:600}
+    .img-block{margin:8px 0 22px; text-align:center}
+    .img-block img{border-radius:10px}
+    .small-img{max-width:500px; width:100%; margin:auto; display:block}
+    .medium-img{max-width:750px; width:100%; margin:auto; display:block}
+    .side-by-side{display:flex; gap:12px; justify-content:center; margin:8px 0 22px}
+    .side-by-side img{max-width:45%; border-radius:10px}
+
+    footer{border-top:1px solid var(--border); text-align:center; color:var(--muted); padding:24px var(--page-pad)}
+
+    /* RESPONSIVE SIDEBAR */
+    @media (max-width:960px){
+      .sidebar{position:static; width:auto; border-right:none; border-top:1px solid var(--border)}
+      .content{margin-left:0}
+      .layout{display:flex; flex-direction:column}
+      .side-by-side{flex-direction:column}
+      .side-by-side img{max-width:100%}
+    }
   </style>
 </head>
 <body>
-  <header><a href="../index.html">← Back to portfolio</a></header>
-  <main>
-    <h1>LLM‑Amazon: DistilBERT vs Logistic Regression</h1>
-    <p class="muted">Goal: fine‑tune a compact LLM on Amazon reviews and compare to a TF‑IDF + Logistic Regression baseline.</p>
+  <!-- NAV -->
+  <header class="nav">
+    <nav>
+      <a class="brand" href="../index.html">Mina Akhondzadeh</a>
+      <a href="../about.html">About me</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../resume.pdf" target="_blank" rel="noopener">Resume</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
 
-    <div class="box">
-      <strong>TL;DR:</strong> DistilBERT fine‑tuned with LoRA improved category‑level F1 (avg +X pts) and reduced hallucinated features by ~Y%. False positives concentrated in <em>Electronics</em> and <em>Office Products</em>; <em>Grocery</em> had the cleanest separation.
-    </div>
+  <div class="layout">
+    <!-- SIDEBAR (same as main) -->
+    <aside class="sidebar">
+      <div class="side-group">
+        <img class="side-photo" src="../images/photo1.jpeg" alt="Mina Akhondzadeh" />
+        <div class="side-name" style="margin-top:10px;">Mina Akhondzadeh</div>
+        <div class="side-title">Data Scientist · Orlando, FL</div>
+      </div>
+      <div class="side-group">
+        <p class="side-cred">
+          M.S. in Statistics & Data Science (UCF)<br>
+          Part-time Ph.D. in Big Data Analytics
+        </p>
+      </div>
+      <div class="side-group" style="display:flex; align-items:center; gap:8px;">
+        <img src="../images/aws-logo.png" alt="AWS Logo" style="width:26px; height:26px;" />
+        <span style="font-size:14px;">AWS Certified Cloud Practitioner</span>
+      </div>
+      <div class="side-group icons">
+        <a class="icon" href="https://github.com/Mina-Ak1" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 19 4.77 5.07 5.07 0 0 0 18.91 1S17.73.65 15 2.48a13.38 13.38 0 0 0-6 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77 5.44 5.44 0 0 0 3.5 8.52c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        </a>
+        <a class="icon" href="https://www.linkedin.com/in/mina-akhondzadeh/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+        </a>
+        <div class="icon-wrap">
+          <button class="icon" id="copyEmail" aria-label="Copy Email">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path><path d="m22 6-10 7L2 6"></path></svg>
+          </button>
+          <span id="emailTip" class="tooltip" role="status" aria-live="polite">Email copied</span>
+        </div>
+      </div>
+      <div class="side-divider"></div>
+      <div class="side-group">
+        <h3 style="margin:0 0 8px; font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:.6px;">Skills</h3>
+        <div class="skills">
+          <span class="pill">Machine Learning</span>
+          <span class="pill">Statistics</span>
+          <span class="pill">LLM Fine-tuning</span>
+          <span class="pill">NLP</span>
+          <span class="pill">Data Viz</span>
+          <span class="pill">Python</span>
+          <span class="pill">Flask</span>
+          <span class="pill">SQL</span>
+        </div>
+      </div>
+    </aside>
 
-    <h2>Dataset</h2>
-    <p>5,000 samples from the Amazon Reviews corpus. Preprocessing: lower‑casing, basic cleaning, stratified sampling across categories; instruction‑response pairs for LLM.</p>
+    <!-- PAGE BODY -->
+    <main class="content">
+      <section>
+        <h1>How do LLMs and classical methods classify Amazon reviews?</h1>
+        <div class="hero">
+          <img src="../images/hero-amazon.png" alt="Project hero visual (e.g., t-SNE of embeddings)" />
+        </div>
+        <div class="tldr">
+          <p><strong>TL;DR.</strong> I built a balanced 6-class dataset (5,000 reviews per category) and compared TF-IDF baselines (Logistic Regression, Random Forest) with a fine-tuned DistilBERT. DistilBERT performs best overall, but the Office Products vs Electronics boundary remains tricky. Short, generic reviews are the hardest for all models.</p>
+        </div>
+        <p class="muted">Categories: Beauty & Personal Care, Books, Electronics, Grocery & Gourmet Food, Toys & Games, Office Products.</p>
+        <p class="muted">Data source: <a href="https://huggingface.co/datasets/McAuley-Lab/Amazon-Reviews-2023" target="_blank">Amazon Reviews 2023 (McAuley Lab)</a></p>
+        
+        <table class="table">
+          <thead><tr><th>Model</th><th>Train Acc.</th><th>Test Acc.</th></tr></thead>
+          <tbody>
+            <tr><td>Logistic Regression (TF-IDF)</td><td>0.87</td><td>0.84</td></tr>
+            <tr><td>Random Forest (TF-IDF)</td><td>0.86</td><td>0.80</td></tr>
+            <tr><td>DistilBERT (fine-tuned)</td><td>0.95</td><td>0.88</td></tr>
+          </tbody>
+        </table>
 
-    <h2>Method</h2>
-    <ul>
-      <li><strong>Baseline:</strong> TF‑IDF (min_df=?) → Multiclass Logistic Regression (C=?, class_weight=?).</li>
-      <li><strong>LLM:</strong> <code>distilbert-base-uncased</code> + LoRA (r=?, α=?, dropout=?), epochs=?, cosine LR, mixed precision.</li>
-      <li><strong>Eval:</strong> macro F1, per‑category confusion; qualitative SxS analysis on 50 prompts.</li>
-    </ul>
+        <p><strong>What did I actually build?</strong><br/>A lean comparison: TF-IDF → Logistic Regression & Random Forest vs. a fine-tuned <code>distilbert-base-uncased</code>. Balanced sampling keeps per-class comparisons fair and the evaluation simple.</p>
+        <p><strong>Which approach works better overall?</strong><br/>DistilBERT wins on accuracy and separates categories more cleanly in embedding space.</p>
+        <p><strong>Where do models struggle?</strong><br/>Office Products ↔ Electronics is the toughest boundary across all approaches.</p>
 
-    <h2>Findings</h2>
-    <p>Electronics & Office Products drove most false positives; Grocery was best separated. PCA was weak on sparse TF‑IDF; t‑SNE gave more interpretable clusters.</p>
+        <p><strong>Do shorter reviews hurt accuracy?</strong><br/>Yes. Short, generic text lacks anchors (brand, part, use-case), so models guess more. Below is the length vs. misclassification view.</p>
+        <div class="img-block"><img class="small-img" src="../images/length-misclass.png" alt="Average length of misclassified vs correct across models" /></div>
 
-    <h2>Results</h2>
-    <img src="../images/plot1.png" alt="Training/validation curves" />
-    <img src="../images/plot2.png" alt="Base vs fine‑tuned comparison" />
+        <p><strong>What does the representation space look like?</strong><br/>To see the difference between bag-of-words vs contextual embeddings, I plotted t-SNE for TF-IDF and for DistilBERT embeddings. TF-IDF shows heavy mixing, especially Office/Electronics. DistilBERT reveals tighter groups; Grocery is notably well-separated.</p>
+        <div class="side-by-side">
+          <img src="../images/tsne-tfidf.png" alt="t-SNE on TF-IDF features" />
+          <img src="../images/tsne-embeddings.png" alt="t-SNE on DistilBERT embeddings" />
+        </div>
 
-    <h2>Takeaways & Next</h2>
-    <ul>
-      <li>Fine‑tuning helped domain specificity; remaining errors suggest augmenting with product metadata.</li>
-      <li>Next: try instruction formatting variants and data‑centric cleanup on noisy categories.</li>
-    </ul>
+        <p><strong>What does the model focus on?</strong><br/>A quick look at DistilBERT’s [CLS] attention maps: correct cases highlight product-specific terms; misclassified pairs lean on generic sentiment or accessory words that appear in multiple categories.</p>
+        <div class="img-block"><img class="medium-img" src="../images/attention-correct.png" alt="[CLS] attention — correct case" /></div>
+        <div class="img-block"><img class="medium-img" src="../images/attention-misclassified.png" alt="[CLS] attention — misclassified case" /></div>
+      </section>
 
-    <p><a href="https://github.com/YOURUSERNAME/llm-amazon-reviews" target="_blank" rel="noopener">Code on GitHub</a></p>
-  </main>
+      <footer>
+        For details you can visit my <a href="https://github.com/Mina-Ak1/Amazon_reviews_classification_LLMs/blob/main/Week%2012.ipynb" target="_blank">GitHub repository</a> · © <span id="year"></span> Mina Akhondzadeh
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // year stamp
+    document.getElementById("year").textContent = new Date().getFullYear();
+    // Copy-to-clipboard tooltip
+    const copyBtn = document.getElementById("copyEmail");
+    const tip = document.getElementById("emailTip");
+    if(copyBtn){
+      copyBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText("mina.akhndzd@gmail.com").then(() => {
+          tip.classList.add("show"); setTimeout(()=> tip.classList.remove("show"), 1100);
+        });
+      });
+    }
+  </script>
 </body>
 </html>
