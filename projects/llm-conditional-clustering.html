@@ -70,60 +70,77 @@
     </aside>
 
     <!-- MAIN CONTENT -->
-    <main class="content">
+    <main class="content narrow">
       <section>
-        <h1>What Makes a Country Happier?</h1>
+        <h1>Conditional Clustering using LLMs</h1>
 
         <div class="skills" style="margin: 10px 0 30px;">
-          <span class="pill">R</span>
+          <span class="pill">Python</span>
+          <span class="pill">GPT-4</span>
+          <span class="pill">LLM Embeddings</span>
+          <span class="pill">K-Means</span>
           <span class="pill">PCA</span>
-          <span class="pill">Factor Analysis</span>
-          <span class="pill">Data Visualization</span>
+          <span class="pill">Data Viz</span>
         </div>
 
         <div class="hero">
-          <img src="../images/hero-happiness.jpeg" alt="World Happiness visualization" />
+          <img src="../images/hero-condition.png" alt="Conditional Clustering" />
         </div>
 
+                <!-- TL;DR -->
         <div class="tldr">
-          <p><strong>TL;DR.</strong> I analyzed the World Happiness Report to understand which factors (GDP, social support, freedom, generosity, corruption) influence happiness across countries. Using PCA and factor analysis, I found that economic well-being, social support, and trust in institutions are the strongest dimensions behind happiness rankings.</p>
+          <p><strong>TL;DR.</strong> Same five texts, different clusters—depending on whether you group by <em>topic</em>, <em>sentiment</em>, or <em>emotion</em>. I compare a simple TF-IDF + K-Means baseline with task-specific LLM embeddings and a prompt-based approach. Result: the condition changes the geometry, and task-specific embeddings produce clearer, more intuitive clusters. </p>
         </div>
 
-        <!-- ABOUT DATA SECTION -->
-        <p class="question"><strong>About the data</strong></p>
-        <p class="answer">
-          The World Happiness Report is an annual publication that ranks countries based on
-          happiness levels, using various socio-economic and psychological factors. Drawing on survey
-          data and statistical analysis, it assesses global well-being and highlights the key drivers of
-          happiness, offering valuable insights for policymakers and researchers worldwide.
+        <!-- ABOUT DATA -->
+        <h2>About the Data</h2>
+        <p>
+          Five short texts designed to be clusterable in multiple ways (sports/finance/science for topic; positive/neutral/negative for sentiment; joy/sadness/etc. for emotion). This makes it easy to see how the “definition of similarity” affects grouping. 
         </p>
 
-        <p class="muted">Data source: <a href="https://worldhappiness.report/" target="_blank">World Happiness Report</a></p>
+        <!-- METHODS (brief) -->
+        <p class="question"><strong>What did I compare?</strong></p>
+        <p class="answer">
+          • <b>Task-specific embeddings</b> for each condition (topic, emotion, sentiment) + K-Means. <br>
+          • <b>Prompted LLM route</b> (define the condition in natural language, then group). <br>
+          • <b>Classical baseline</b>: TF-IDF + K-Means. 
+        </p>
 
-        <p class="question"><strong>What does the dataset contain?</strong></p>
-        <p class="answer">Survey-based happiness scores per country and year, with explanatory features: GDP per capita, social support, life expectancy, freedom, generosity, and perceptions of corruption.</p>
+        <!-- OLD PLOT SET (kept) -->
+        <p class="question"><strong>PCA views of the embeddings</strong></p>
+        <p class="answer">Topic shows tighter, clearer groupings; sentiment and emotion are more diffuse (they’re more subjective), so clusters spread out more. </p>
+        <div class="img-block">
+          <img class="medium-img" src="../images/pca-conditional.png" alt="PCA visualization of topic, sentiment, and emotion embeddings" />
+        </div>
 
-        <p class="question"><strong>Which factors correlate most with happiness?</strong></p>
-        <p class="answer">GDP per capita, social support, and life expectancy show moderate to strong positive correlations. Freedom also helps, while generosity is weakly correlated and not always tied to wealth.</p>
-        <div class="img-block"><img class="small-img" src="../images/corr-matrix.png" alt="Correlation matrix of features" /></div>
+        <p class="question"><strong>K-Means on LLM embeddings vs. TF-IDF</strong></p>
+        <p class="answer">
+          In the condition-aligned LLM spaces, K-Means generally recovers the expected groupings. TF-IDF, based purely on word frequency, can mix very different texts if they share similar vocabulary. 
+        </p>
 
-        <p class="question"><strong>How do regions compare?</strong></p>
-        <p class="answer">Western Europe and North America cluster at the high end of GDP and happiness. Sub-Saharan Africa and South Asia cluster lower, reflecting the impact of economic challenges.</p>
-        <div class="img-block"><img class="small-img" src="../images/region-clusters.png" alt="Regional clustering plot" /></div>
-
-        <p class="question"><strong>What did PCA reveal?</strong></p>
-        <p class="answer">The first 4 principal components explain ~88% of variance. PC1 captures economic well-being & social support, PC2/PC3 capture trust in governance and selflessness, PC4 highlights personal freedom.</p>
-
-
-        <div class="img-block"><img class="small-img" src="../images/pca-biplot.png"  alt="PCA biplot" /></div>
-        <div class="img-block"><img class="small-img" src="../images/loading.png"  alt="t-SNE on DistilBERT embeddings"/></div>
+        <div class="img-block"><img class="medium-img" src="../images/kmeans-llm-3panels.png" alt="K-Means on topic/sentiment/emotion embeddings" /></div>
+        <div class="img-block"><img class="small-img" src="../images/kmeans-tfidf.png" alt="K-Means on TF-IDF baseline" /></div>
 
 
-        <p class="question"><strong>What about factor analysis?</strong></p>
-        <p class="answer">Factor analysis grouped variables into two main dimensions: (1) economic well-being & social support, (2) social trust & governance quality.</p>
-        <div class="img-block"><img class="small-img" src="../images/factor-analysis.png" alt="Factor analysis plot" /></div>
+        <p class="question"><strong>Do the spaces agree?</strong></p>
+        <p class="answer">
+          Only loosely. Topic space tends to differ from sentiment/emotion, while sentiment and emotion are more alike. Exact values aren’t the point—the takeaway is that the condition you care about changes what “near” means. 
+        </p>
 
+        <p class="question"><strong>Takeaways</strong></p>
+        <ul class="answer" style="padding-left:18px;">
+          <li>The condition defines the clustering—same inputs, different groups.</li>
+          <li>Task-specific LLM embeddings give cleaner clusters than TF-IDF.</li>
+          <li>Prompting works when you can state the condition directly. </li>
+        </ul>
       </section>
+
+
+      <footer>
+        For details, see the presentation (PDF) and code notes. © <span id="year"></span> Mina Akhondzadeh
+      </footer>
+    </main>
+  </div>
 
       <footer>
         For details you can see the <a href="https://github.com/Mina-Ak1/World_Happiness_Report_Data_Analysis.git" target="_blank">GitHub repository</a> · © <span id="year"></span> Mina Akhondzadeh
