@@ -88,9 +88,10 @@
           <img src="../images/hero-happiness.jpeg" alt="World Happiness visualization" />
         </div>
 
-        <div class="tldr">
-          <p><strong>TL;DR.</strong> I analyzed the World Happiness Report to understand which factors (GDP, social support, freedom, generosity, corruption) influence happiness across countries. Using PCA and factor analysis, I found that economic well-being, social support, and trust in institutions are the strongest dimensions behind happiness rankings.</p>
-        </div>
+
+        <p class="question"><strong>TL;DR</strong></p>
+        <p class="tldr">
+        I analyzed the World Happiness Report to understand which factors (GDP, social support, freedom, generosity, corruption) influence happiness across countries. Using PCA and factor analysis, I found that economic well-being, social support, and trust in institutions are the strongest dimensions behind happiness rankings.</p>
 
         <!-- ABOUT DATA SECTION -->
         <p class="question"><strong>About the data</strong></p>
@@ -135,7 +136,18 @@
   </div>
 
   <script>
+    // year stamp
     document.getElementById("year").textContent = new Date().getFullYear();
+    // Copy-to-clipboard tooltip
+    const copyBtn = document.getElementById("copyEmail");
+    const tip = document.getElementById("emailTip");
+    if(copyBtn){
+      copyBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText("mina.akhndzd@gmail.com").then(() => {
+          tip.classList.add("show"); setTimeout(()=> tip.classList.remove("show"), 1100);
+        });
+      });
+    }
   </script>
 </body>
 </html>

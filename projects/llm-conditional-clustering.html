@@ -80,76 +80,111 @@
           <span class="pill">LLM Embeddings</span>
           <span class="pill">K-Means</span>
           <span class="pill">PCA</span>
-          <span class="pill">Data Viz</span>
         </div>
 
         <div class="hero">
-          <img src="../images/hero-condition.png" alt="Conditional Clustering" />
+          <img src="../images/pca-conditional.png" alt="Conditional Clustering" />
         </div>
 
-                <!-- TL;DR -->
-        <div class="tldr">
-          <p><strong>TL;DR.</strong> Same five texts, different clusters—depending on whether you group by <em>topic</em>, <em>sentiment</em>, or <em>emotion</em>. I compare a simple TF-IDF + K-Means baseline with task-specific LLM embeddings and a prompt-based approach. Result: the condition changes the geometry, and task-specific embeddings produce clearer, more intuitive clusters. </p>
-        </div>
+        <!-- TL;DR -->
+        <p class="question"><strong>TL;DR</strong></p>
+        <p class="tldr">
+          I gathered five short texts that can be grouped by topic, sentiment, or emotion. 
+          I tested three methods: (1) task-specific LLM embeddings, (2) GPT-4 with prompts, and (3) a TF-IDF + K-Means baseline. 
+          I compared how each method clusters the same inputs under different conditions. The third method does not allow for defining a condition explicitly.
+        </p>
 
         <!-- ABOUT DATA -->
-        <h2>About the Data</h2>
-        <p>
+        <p class="question"><strong>About the Data</strong></p>
+        <div class="answer">
+          <p>
           Five short texts designed to be clusterable in multiple ways (sports/finance/science for topic; positive/neutral/negative for sentiment; joy/sadness/etc. for emotion). This makes it easy to see how the “definition of similarity” affects grouping. 
+          </p>
+
+          <ol class="tight" start="0">
+            <li>“The soccer team celebrated their championship victory with a parade.”</li>
+            <li>“The marathon runner collapsed just meters away from the finish line.”</li>
+            <li>“Basketball players need both speed and strategy to dominate the court.”</li>
+            <li>“The stock market experienced a sharp decline today, causing panic among investors.”</li>
+            <li>“NASA just launched a new telescope to explore distant galaxies.”</li>
+          </ol>
         </p>
 
         <!-- METHODS (brief) -->
         <p class="question"><strong>What did I compare?</strong></p>
+
+        <p class="answer"><b>Task-specific LLM embeddings</b> + K-Means, using:</p>
+        <ul class="answer" style="margin: 6px 0 12px; padding-left: 20px;">
+          <li><code>cardiffnlp/tweet-topic-21-multi</code> for topic classification</li>
+          <li><code>j-hartmann/emotion-english-distilroberta-base</code> for emotion classification</li>
+          <li><code>cardiffnlp/twitter-roberta-base-sentiment</code> for sentiment classification</li>
+        </ul>
+
         <p class="answer">
-          • <b>Task-specific embeddings</b> for each condition (topic, emotion, sentiment) + K-Means. <br>
-          • <b>Prompted LLM route</b> (define the condition in natural language, then group). <br>
-          • <b>Classical baseline</b>: TF-IDF + K-Means. 
+          <b>Prompt-based GPT-4 approach</b>: I used GPT-4 to generate sentence groupings based on natural language prompts specifying topic, emotion, or style. Since GPT-4 doesn’t expose its internal embeddings, I used <code>text-embedding-ada-002</code> to embed the same texts and perform clustering aligned with each condition.
+        </p>
+
+
+
+        <p class="answer">
+          <b>Classical baseline</b>: TF-IDF + K-Means (no way to define the condition directly).
         </p>
 
         <!-- OLD PLOT SET (kept) -->
         <p class="question"><strong>PCA views of the embeddings</strong></p>
-        <p class="answer">Topic shows tighter, clearer groupings; sentiment and emotion are more diffuse (they’re more subjective), so clusters spread out more. </p>
+        <p class="answer">Topic shows tighter, clearer groupings; sentiment and emotion are more diffuse (they are more subjective), so clusters spread out more. </p>
         <div class="img-block">
-          <img class="medium-img" src="../images/pca-conditional.png" alt="PCA visualization of topic, sentiment, and emotion embeddings" />
+          <img class="small-img" src="../images/pca-conditional.png" alt="PCA visualization of topic, sentiment, and emotion embeddings" />
         </div>
 
         <p class="question"><strong>K-Means on LLM embeddings vs. TF-IDF</strong></p>
         <p class="answer">
-          In the condition-aligned LLM spaces, K-Means generally recovers the expected groupings. TF-IDF, based purely on word frequency, can mix very different texts if they share similar vocabulary. 
+          Clustering with LLM embeddings often grouped the sentences in ways that matched the intended condition (like topic or emotion). In contrast, TF-IDF sometimes grouped unrelated sentences together just because they shared common words.
         </p>
 
         <div class="img-block"><img class="medium-img" src="../images/kmeans-llm-3panels.png" alt="K-Means on topic/sentiment/emotion embeddings" /></div>
         <div class="img-block"><img class="small-img" src="../images/kmeans-tfidf.png" alt="K-Means on TF-IDF baseline" /></div>
 
 
-        <p class="question"><strong>Do the spaces agree?</strong></p>
+        <p class="question"><strong>Do the embedding spaces agree?</strong></p>
         <p class="answer">
-          Only loosely. Topic space tends to differ from sentiment/emotion, while sentiment and emotion are more alike. Exact values aren’t the point—the takeaway is that the condition you care about changes what “near” means. 
+          Not exactly. Each LLM I used was fine-tuned on a specific task (topic, sentiment, or emotion) and trained to produce embeddings aligned with those labels. As a result, the same sentences cluster differently depending on which model is used. For conditional clustering, using task-specific LLMs gives you embeddings that naturally reflect the condition you are interested in.
         </p>
+
+
 
         <p class="question"><strong>Takeaways</strong></p>
         <ul class="answer" style="padding-left:18px;">
-          <li>The condition defines the clustering—same inputs, different groups.</li>
-          <li>Task-specific LLM embeddings give cleaner clusters than TF-IDF.</li>
-          <li>Prompting works when you can state the condition directly. </li>
+          <li>LLMs trained on a specific task give embeddings that naturally reflect that task, so clustering works better.</li>
+          <li>TF-IDF is simple but does not account for meaning, it just picks up on word overlap, which can be misleading.</li>
+          <li>Using GPT-4 with prompts is helpful when no pre-trained model fits, as long as the condition can be explained clearly.</li>
         </ul>
+
+
       </section>
 
 
       <footer>
-        For details, see the presentation (PDF) and code notes. © <span id="year"></span> Mina Akhondzadeh
+        For details you can visit my <a href="https://github.com/Mina-Ak1/Conditional-Clustering" target="_blank">GitHub repository</a> · © <span id="year"></span> Mina Akhondzadeh
       </footer>
     </main>
   </div>
 
-      <footer>
-        For details you can see the <a href="https://github.com/Mina-Ak1/World_Happiness_Report_Data_Analysis.git" target="_blank">GitHub repository</a> · © <span id="year"></span> Mina Akhondzadeh
-      </footer>
-    </main>
-  </div>
+
 
   <script>
+    // year stamp
     document.getElementById("year").textContent = new Date().getFullYear();
+    // Copy-to-clipboard tooltip
+    const copyBtn = document.getElementById("copyEmail");
+    const tip = document.getElementById("emailTip");
+    if(copyBtn){
+      copyBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText("mina.akhndzd@gmail.com").then(() => {
+          tip.classList.add("show"); setTimeout(()=> tip.classList.remove("show"), 1100);
+        });
+      });
+    }
   </script>
 </body>
 </html>
