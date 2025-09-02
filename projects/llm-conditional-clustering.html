@@ -86,9 +86,9 @@
           <img src="../images/pca-conditional.png" alt="Conditional Clustering" />
         </div>
 
-        <!-- TL;DR -->
-        <p class="question"><strong>TL;DR</strong></p>
-        <p class="tldr">
+        <!-- SUMMARY-->
+        <p class="question"><strong>Summary</strong></p>
+        <p class="summary">
           I gathered five short texts that can be grouped by topic, sentiment, or emotion. 
           I tested three methods: (1) task-specific LLM embeddings, (2) GPT-4 with prompts, and (3) a TF-IDF + K-Means baseline. 
           I compared how each method clusters the same inputs under different conditions. The third method does not allow for defining a condition explicitly.
@@ -110,8 +110,8 @@
           </ol>
         </p>
 
-        <!-- METHODS (brief) -->
-        <p class="question"><strong>What did I compare?</strong></p>
+        <!-- METHODS-->
+        <p class="question"><strong>Methods</strong></p>
 
         <p class="answer"><b>Task-specific LLM embeddings</b> + K-Means, using:</p>
         <ul class="answer" style="margin: 6px 0 12px; padding-left: 20px;">
@@ -124,20 +124,20 @@
           <b>Prompt-based GPT-4 approach</b>: I used GPT-4 to generate sentence groupings based on natural language prompts specifying topic, emotion, or style. Since GPT-4 doesn’t expose its internal embeddings, I used <code>text-embedding-ada-002</code> to embed the same texts and perform clustering aligned with each condition.
         </p>
 
-
-
         <p class="answer">
           <b>Classical baseline</b>: TF-IDF + K-Means (no way to define the condition directly).
         </p>
 
-        <!-- OLD PLOT SET (kept) -->
-        <p class="question"><strong>PCA views of the embeddings</strong></p>
+       <p class="question"><strong>Evaluation</strong></p>
+
+        <p class="subquestion"><strong>PCA views of the embeddings</strong></p>
+
         <p class="answer">Topic shows tighter, clearer groupings; sentiment and emotion are more diffuse (they are more subjective), so clusters spread out more. </p>
         <div class="img-block">
           <img class="small-img" src="../images/pca-conditional.png" alt="PCA visualization of topic, sentiment, and emotion embeddings" />
         </div>
 
-        <p class="question"><strong>K-Means on LLM embeddings vs. TF-IDF</strong></p>
+        <p class="subquestion"><strong>K-Means on LLM embeddings vs. TF-IDF</strong></p>
         <p class="answer">
           Clustering with LLM embeddings often grouped the sentences in ways that matched the intended condition (like topic or emotion). In contrast, TF-IDF sometimes grouped unrelated sentences together just because they shared common words.
         </p>
@@ -146,14 +146,14 @@
         <div class="img-block"><img class="small-img" src="../images/kmeans-tfidf.png" alt="K-Means on TF-IDF baseline" /></div>
 
 
-        <p class="question"><strong>Do the embedding spaces agree?</strong></p>
+        <p class="subquestion"><strong>Do the embedding spaces agree?</strong></p>
         <p class="answer">
           Not exactly. Each LLM I used was fine-tuned on a specific task (topic, sentiment, or emotion) and trained to produce embeddings aligned with those labels. As a result, the same sentences cluster differently depending on which model is used. For conditional clustering, using task-specific LLMs gives you embeddings that naturally reflect the condition you are interested in.
         </p>
 
 
 
-        <p class="question"><strong>Takeaways</strong></p>
+        <p class="question"><strong>Insights</strong></p>
         <ul class="answer" style="padding-left:18px;">
           <li>LLMs trained on a specific task give embeddings that naturally reflect that task, so clustering works better.</li>
           <li>TF-IDF is simple but does not account for meaning, it just picks up on word overlap, which can be misleading.</li>

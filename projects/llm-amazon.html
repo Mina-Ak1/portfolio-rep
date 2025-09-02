@@ -91,15 +91,67 @@
           <img src="../images/hero-amazon.png" alt="Project hero visual (e.g., t-SNE of embeddings)" />
         </div>
 
-        <p class="question"><strong>TL;DR</strong></p>
-        <p class="tldr">
-        I built a balanced 6-class dataset (5,000 reviews per category) and compared TF-IDF baselines (Logistic Regression, Random Forest) with a fine-tuned DistilBERT. DistilBERT performs best overall, but the Office Products vs Electronics boundary remains tricky. Short, generic reviews are the hardest for all models.</p>
+        <p class="question"><strong>Summary</strong></p>
+        <p class="summary">
+          Classify Amazon reviews into categories using both LLMs and classical ML models. I used the following methods:
+        </p>
+
+        <ul class="answer" style="padding-left:18px; margin-top: 4px;">
+          <li><b>Classical models:</b>
+            <ul style="margin-top: 4px; padding-left: 16px;">
+              <li>Multiclass Logistic Regression on TF-IDF feature space</li>
+              <li>Random Forest on TF-IDF feature space</li>
+            </ul>
+          </li>
+          <li><b>LLM:</b>
+            <ul style="margin-top: 4px; padding-left: 16px;">
+              <li>Fine-tuned DISTILBERT on the review dataset</li>
+            </ul>
+          </li>
+        </ul>
+
+        <p class="answer" style="margin-top: 10px;">
+          I did error analysis of highly misclassified categories (e.g., Office Products vs Electronics) using PCA, t-SNE, Monte Carlo Dropout, and LDA.
+        </p>
 
 
-        
-        <p class="muted">Categories: Beauty & Personal Care, Books, Electronics, Grocery & Gourmet Food, Toys & Games, Office Products.</p>
+
+        <p class="question"><strong>About the Data</strong></p>
+        <p class="answer">
+          From the large Amazon Reviews dataset, I selected 5,000 samples from each of the following six product categories. 
+          I chose these categories to introduce variation in topic, tone, and sentiment across the reviews:
+        </p>
+
+        <div class="muted" style="display: flex; flex-wrap: wrap; gap: 8px 45px; padding-left: 10px;">
+          <ul style="list-style-type: disc; padding-left: 30px; margin: 0; width: 250px;">
+            <li>Beauty & Personal Care</li>
+            <li>Books</li>
+            <li>Electronics</li>
+          </ul>
+          <ul style="list-style-type: disc; padding-left: 30px; margin: 0; width: 250px;">
+            <li>Grocery & Gourmet Food</li>
+            <li>Toys & Games</li>
+            <li>Office Products</li>
+          </ul>
+        </div>
+
+
         <p class="muted">Data source: <a href="https://huggingface.co/datasets/McAuley-Lab/Amazon-Reviews-2023" target="_blank">Amazon Reviews 2023 (McAuley Lab)</a></p>
         
+        <p class="question"><strong>Methods</strong></p>
+        <p class="answer">
+          I compared two approaches: classical models using TF-IDF features (Logistic Regression and Random Forest) versus a fine-tuned DistilBERT. 
+          For the LLM method, I fine-tuned the <code>distilbert-base-uncased</code> model on my Amazon reviews dataset.
+        </p>
+
+        <p class="answer">
+          I used a 70/30 train-test split for all models, and applied balanced sampling to ensure each product category was equally represented. 
+        </p>
+
+        
+
+
+        <p class="question"><strong>Evaluation</strong></p>
         <table class="table">
           <thead><tr><th>Model</th><th>Train Accuracy</th><th>Test Accuracy</th></tr></thead>
           <tbody>
@@ -110,32 +162,27 @@
         </table>
 
         <p class="section-break">
-          Among all categories, <strong>Electronics</strong> and <strong>Office Products</strong> have the highest number of false
-          positive cases, while <strong>Grocery and Gourmet Food</strong> shows the lowest false positives,
-          especially in the fine-tuned DistilBERT model. This contrast makes them a good set for comparison
-          when visualizing how mixed the categories appear after PCA transformation.
+          DistilBERT performs the best overall, although there are some signs of overfitting. 
+          All models struggle the most with the <strong>Electronics</strong> and <strong>Office Products</strong> categories, which have the highest number of misclassifications. 
+          In contrast, <strong>Grocery & Gourmet Food</strong> shows the fewest misclassifications. 
+          This contrast makes these categories a useful pair for visualizing how mixed the class boundaries appear after t-SNE transformation.
         </p>
 
-        <p class="question"><strong>What did I actually build?</strong></p>
-        <p class="answer">A comparison: TF-IDF with Logistic Regression & Random Forest vs. a fine-tuned DistilBERT. Balanced sampling keeps per-class comparisons fair and the evaluation simple.</p>
-        <p class="question"><strong>Which approach works better overall?</strong></p>
-        <p class="answer">DistilBERT comes out ahead. </p>
-        <p class="question"><strong>Where do models struggle?</strong></p>
-        <p class="answer">Office Products ↔ Electronics is the toughest boundary across all approaches.</p>
 
-        <p class="question"><strong>Do shorter reviews hurt accuracy?</strong>
-        <p class="answer">Yes. Short, generic reviews (like “Great product, works fine”) lack anchors, so models guess more. Below is the review length vs. misclassification view.</p>
+        <p class="section-break">
+          Short, generic reviews (like “Great product, works fine”) lack clear anchors, so the models tend to guess more. Below is a view of review length vs. prediction.
+        </p>
+
 
         <div class="img-block"><img class="small-img" src="../images/length-misclass.png" alt="Average length of misclassified vs correct across models" /></div>
 
-        <p class="question"><strong>What does the representation space look like?</strong></p>
+        <p class="question"><strong>Insights</strong></p>
         <p class="answer">To see the difference between bag-of-words vs contextual embeddings, I plotted t-SNE for TF-IDF and for DistilBERT embeddings. TF-IDF shows heavy mixing, especially Office/Electronics. DistilBERT reveals tighter groups; Grocery is notably well-separated.</p>
         <div class="side-by-side">
           <img src="../images/tsne-tfidf.png" alt="t-SNE on TF-IDF features" />
           <img src="../images/tsne-embeddings.png" alt="t-SNE on DistilBERT embeddings" />
         </div>
 
-        <p class="question"><strong>What does the LLM focus on?</strong></p>
         <p class="answer">A quick look at DistilBERT’s [CLS] attention maps: correct cases highlight product-specific terms; misclassified pairs lean on generic sentiment or accessory words that appear in multiple categories.</p>
         <div class="img-block"><img class="medium-img" src="../images/attention-correct.png" alt="[CLS] attention — correct case" /></div>
         <div class="img-block"><img class="medium-img" src="../images/attention-misclassified.png" alt="[CLS] attention — misclassified case" /></div>

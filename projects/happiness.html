@@ -89,29 +89,30 @@
         </div>
 
 
-        <p class="question"><strong>TL;DR</strong></p>
-        <p class="tldr">
+        <p class="question"><strong>Summary</strong></p>
+        <p class="summary">
         I analyzed the World Happiness Report to understand which factors (GDP, social support, freedom, generosity, corruption) influence happiness across countries. Using PCA and factor analysis, I found that economic well-being, social support, and trust in institutions are the strongest dimensions behind happiness rankings.</p>
 
         <!-- ABOUT DATA SECTION -->
-        <p class="question"><strong>About the data</strong></p>
+        <p class="question"><strong>About the Data</strong></p>
         <p class="answer">
-          The World Happiness Report is an annual publication that ranks countries based on
-          happiness levels, using various socio-economic and psychological factors. Drawing on survey
-          data and statistical analysis, it assesses global well-being and highlights the key drivers of
-          happiness, offering valuable insights for policymakers and researchers worldwide.
+          The World Happiness Report ranks countries by average happiness scores based on global surveys. 
+          The dataset includes one row per country per year, with features like GDP per capita, social support, life expectancy, freedom, generosity, and perceptions of corruption.
         </p>
 
         <p class="muted">Data source: <a href="https://worldhappiness.report/" target="_blank">World Happiness Report</a></p>
 
-        <p class="question"><strong>What does the dataset contain?</strong></p>
-        <p class="answer">Survey-based happiness scores per country and year, with explanatory features: GDP per capita, social support, life expectancy, freedom, generosity, and perceptions of corruption.</p>
+        <p class="question"><strong>Methods</strong></p>
+        <p class="answer">
+          I started with exploratory visualizations to understand feature relationships and happiness trends across regions. Then I applied PCA to reduce dimensionality and uncover dominant patterns, followed by Factor Analysis to identify underlying factors like economic well-being and social trust.
+        </p>
 
-        <p class="question"><strong>Which factors correlate most with happiness?</strong></p>
+
+
+        <p class="question"><strong>Evaluation</strong></p>
         <p class="answer">GDP per capita, social support, and life expectancy show moderate to strong positive correlations. Freedom also helps, while generosity is weakly correlated and not always tied to wealth.</p>
         <div class="img-block"><img class="small-img" src="../images/corr-matrix.png" alt="Correlation matrix of features" /></div>
 
-        <p class="question"><strong>How do regions compare?</strong></p>
         <p class="answer">Western Europe and North America cluster at the high end of GDP and happiness. Sub-Saharan Africa and South Asia cluster lower, reflecting the impact of economic challenges.</p>
         <div class="img-block"><img class="small-img" src="../images/region-clusters.png" alt="Regional clustering plot" /></div>
 
@@ -127,6 +128,10 @@
         <p class="answer">Factor analysis grouped variables into two main dimensions: (1) economic well-being & social support, (2) social trust & governance quality.</p>
         <div class="img-block"><img class="small-img" src="../images/factor-analysis.png" alt="Factor analysis plot" /></div>
 
+
+        <p class="question"><strong>Insights</strong></p>
+        <p class="answer">  Both PCA and Factor Analysis reveal similar patterns in the data. The first principal component and the first factor both highlight the importance of economic well-being and social support. The second component and factor relate to perceptions of corruption. However, generosity behaves differently—while PCA links it to PC2, Factor Analysis shows it has high uniqueness, suggesting that generosity may be influenced by other factors not captured in the dataset.
+</p>
       </section>
 
       <footer>
