@@ -132,6 +132,23 @@
         <li>XGBoost</li>
         </ul>
 
+        <p class="answer">
+          Before building the models, I explored the dataset with some visualizations to better understand its structure.
+        </p>
+
+        <div class="img-block">
+          <img class="small-img" src="../images/appendicitis-viz1.png" alt="Class distribution and weight histogram" />
+          <p class="muted">
+            The dataset is balanced across classes, so no re-sampling was needed. The <i>Weight</i> variable is approximately normal with an average around 40 kg (note: weight is in kilograms, not pounds).
+          </p>
+        </div>
+
+        <div class="img-block">
+          <img class="small-img" src="../images/appendicitis-viz2.png" alt="Boxplots of WBC count and neutrophil percentage vs diagnosis" />
+          <p class="muted">
+            Positive cases of appendicitis show higher interquartile ranges and medians for <i>WBC Count</i>. A similar trend is observed for <i>Neutrophil Percentage</i>, suggesting these features could be useful predictors.
+          </p>
+        </div>
 
 
         <p class="question"><strong>Evaluation</strong></p>
