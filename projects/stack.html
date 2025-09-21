@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VF6ZWBC7D2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-VF6ZWBC7D2', {'traffic_type': 'internal'});
+  </script>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>What Makes a Country Happier?</title>
+  <meta name="description" content="Exploring the World Happiness Report with PCA, factor analysis, and data visualization." />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <!-- NAV -->
+  <header class="nav">
+    <nav>
+      <a class="brand" href="../index.html">Mina Akhondzadeh</a>
+      <a href="../about.html">About me</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../resume.pdf" target="_blank" rel="noopener">Resume</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="layout">
+    <!-- SIDEBAR (same as other project) -->
+    <aside class="sidebar">
+      <div class="side-group">
+        <a href="../index.html"><img class="side-photo" src="../images/photo1.jpeg" alt="Mina Akhondzadeh" /></a>
+        <div class="side-name" style="margin-top:10px;">Mina Akhondzadeh</div>
+        <div class="side-title">Data Scientist · Orlando, FL</div>
+      </div>
+      <div class="side-group">
+        <p class="side-cred">
+          M.S. in Statistics & Data Science (UCF)<br>
+          Part-time Ph.D. in Big Data Analytics
+        </p>
+      </div>
+      
+      <a href="../documents/aws-cert.pdf" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
+        <div class="side-group" style="display:flex; align-items:center; gap:8px;">
+          <img src="../images/aws-logo.png" alt="AWS Logo" style="width:26px; height:26px;" />
+          <span style="font-size:14px;">AWS Certified Cloud Practitioner</span>
+        </div>
+      </a>
+
+
+      <div class="side-group icons">
+        <a class="icon" href="https://github.com/Mina-Ak1" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 19 4.77 5.07 5.07 0 0 0 18.91 1S17.73.65 15 2.48a13.38 13.38 0 0 0-6 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77 5.44 5.44 0 0 0 3.5 8.52c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        </a>
+        <a class="icon" href="https://www.linkedin.com/in/mina-akhondzadeh/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+        </a>
+        <div class="icon-wrap">
+          <button class="icon" id="copyEmail" aria-label="Copy Email">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path><path d="m22 6-10 7L2 6"></path></svg>
+          </button>
+          <span id="emailTip" class="tooltip" role="status" aria-live="polite">Email copied</span>
+        </div>
+      </div>
+      <div class="side-divider"></div>
+      <div class="side-group">
+        <h3 style="margin:0 0 8px; font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:.6px;">Skills</h3>
+        <div class="skills">
+          <span class="pill">Machine Learning</span>
+          <span class="pill">Statistics</span>
+          <span class="pill">LLM Fine-tuning</span>
+          <span class="pill">NLP</span>
+          <span class="pill">Data Viz</span>
+          <span class="pill">Python</span>
+          <span class="pill">Flask</span>
+          <span class="pill">SQL</span>
+        </div>
+      </div>
+    </aside>
+
+
+     <!-- MAIN CONTENT -->
+    <main class="content narrow">
+      <section>
+        <h1>Why Some Stack Overflow Questions Get Faster Answers?</h1>
+
+        <div class="skills" style="margin: 10px 0 30px;">
+          <span class="pill">Python</span>
+          <span class="pill">Data Visualization</span>
+        </div>
+
+        <div class="hero">
+          <img  src="../images/hero-stack.png" alt="Stack Overflow" />
+        </div>
+
+
+        <p class="question"><strong>Summary</strong></p>
+        <p class="summary">
+        I analyzed Stack Overflow data to see what factors affect how quickly a question gets its first answer, such as tags, code snippets, and user reputation.
+
+        <!-- ABOUT DATA SECTION -->
+        <p class="question"><strong>About the Data</strong></p>
+        <p class="answer">
+        This project uses the public Stack Overflow dataset available through Google BigQuery. I focused on questions posted since 2020 that received at least one answer, combining information on question text, user reputation, comments, and engagement metrics to build a clean analysis table for exploration.
+        </p>
+
+        <p class="muted">Data source: <a href="https://console.cloud.google.com/marketplace/product/stack-exchange/stack-overflow?project=singular-silo-432600-r0" target="_blank">Stack Overflow Public Dataset</a></p>
+
+        <p class="question"><strong>Methods</strong></p>
+        <p class="answer">
+        I performed exploratory data analysis to uncover patterns across features and applied linear regression to identify which factors were most strongly associated with question outcomes. Since the model had a low R² and failed to capture the patterns well, I conducted error analysis to better understand limitations and refine the approach. </p>
+
+        <p class="question"><strong>Evaluation</strong></p>
+        <p class="answer">Response times are fastest during working hours (9 AM – 5 PM), likely because more users are active on Stack Overflow during that time.</p>
+        <div class="img-block"><img class="small-img" src="../images/stack_response.png" alt="Which hour has the shortest response time?" /></div>
+
+        <p class="answer">Questions posted on Tuesday, Wednesday, and Thursday tend to receive the fastest responses, while response times slow down over the weekend, likely because fewer people are working and active on Stack Overflow.</p>
+        <div class="img-block"><img class="small-img" src="../images/day_response.png" alt="Day of week" /></div>
+
+        <p class="answer">About 20% of the questions are about Python, and around 17% are about JavaScript.</p>
+        <div class="img-block"><img class="small-img" src="../images/tag_stack.png"  alt="Tags Percentage" /></div>
+
+
+        <p class="answer"> Among the most frequent tags, questions tagged with Excel and Java tend to have slightly longer response times compared to others.</p>
+        <div class="img-block"><img class="small-img" src="../images/tag_response_stack.png" alt="Tags Distributions" /></div>
+
+
+</p>
+      </section>
+
+      <footer>
+        For details you can see the <a href="https://github.com/Mina-Ak1/Stack-Overflow-Response-Time-Analysis" target="_blank">GitHub repository</a> · © <span id="year"></span> Mina Akhondzadeh
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // year stamp
+    document.getElementById("year").textContent = new Date().getFullYear();
+    // Copy-to-clipboard tooltip
+    const copyBtn = document.getElementById("copyEmail");
+    const tip = document.getElementById("emailTip");
+    if(copyBtn){
+      copyBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText("mina.akhndzd@gmail.com").then(() => {
+          tip.classList.add("show"); setTimeout(()=> tip.classList.remove("show"), 1100);
+        });
+      });
+    }
+  </script>
+</body>
+</html>
